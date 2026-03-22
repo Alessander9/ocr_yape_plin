@@ -6,6 +6,7 @@ Motor de respaldo: Tesseract
 Estrategia: ensemble + reconciliación por confianza.
 """
 
+import os
 import time
 import numpy as np
 from typing import List, Tuple, Optional, Dict, Any
@@ -233,16 +234,29 @@ def ejecutar_ocr_sobre_versiones(
     inicio = time.time()
     resultados = []
 
-    # Modo Ultra-Ligero: Solo Tesseract para evitar OOM en Render Free (512MB RAM)
-    logger.info("Procesando con Tesseract (Modo Ligero)...")
+    # Modo Híbrido: PaddleOCR (si hay RAM) + Tesseract (siempre)
+    # En Render (limitado a 512MB) evitamos Paddle para no crashear
+    es_render = os.environ.get("RENDER") == "true"
+    
     for i, version in enumerate(versiones):
         # Solo procesamos las 3 mejores versiones para ahorrar tiempo
         if i > 2: break 
         
+        # Intentar PaddleOCR solo si NO estamos en Render (en local la PC aguanta)
+        if not es_render:
+            try:
+                r_pad = ocr_con_paddle(version)
+                if r_pad and r_pad.texto.strip():
+                    resultados.append(r_pad)
+                    if r_pad.confianza > 0.85:
+                        break
+            except Exception as e:
+                logger.debug(f"PaddleOCR falló (ignorable): {e}")
+
+        # Tesseract (Motor ligero y confiable)
         r = ocr_con_tesseract(version)
         if r and r.texto.strip():
             resultados.append(r)
-            # Si Tesseract ya tiene mucha confianza, paramos
             if r.confianza > 0.80:
                 break
 

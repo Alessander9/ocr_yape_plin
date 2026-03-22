@@ -62,12 +62,17 @@ app.include_router(export_router, prefix="/api/export", tags=["Exportar"])
 
 # ── Servir frontend estático ──────────────────────────────────────────────────
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
-if FRONTEND_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
-    @app.get("/", response_class=FileResponse)
-    async def serve_index():
+@app.get("/", response_class=FileResponse)
+async def serve_index():
+    if (FRONTEND_DIR / "index.html").exists():
         return FileResponse(str(FRONTEND_DIR / "index.html"))
+    return {"error": "Frontend no encontrado localmente"}
+
+if FRONTEND_DIR.exists():
+    # Montamos el resto de archivos (.js, .css, imágenes) en la raíz
+    # IMPORTANTE: Esto debe ir DESPUÉS de los otros routers para no pisarlos
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIR)), name="frontend")
 
 # ── Directorio de uploads y exports ───────────────────────────────────────────
 for d in ["uploads", "exports"]:

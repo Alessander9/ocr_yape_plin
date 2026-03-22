@@ -1597,3 +1597,42 @@ S/ 100
 Nro. de celular
 2026-03-22 06:51:04.424 | DEBUG    | modules.parser:parsear_comprobante:603 - EXTRACTED for 445b29f6e9454132b72932af4eed148c_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: tipo=YAPE monto=100.0 fecha=2026-03-20 hora=23:48:00 emisor=None receptor=Luis Alexander Fernandez celular=None banco=None num_op=465724
 2026-03-22 06:51:04.424 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 445b29f6e9454132b72932af4eed148c_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg | tipo=YAPE | monto=100.0 | confianza=0.93 | tiempo=6.66s
+2026-03-22 18:45:07.045 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg -> a068f0f17a36448d98fd0fbb62f720bf.jpeg
+2026-03-22 18:45:07.047 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 6.12.56 PM.jpeg -> dbf679bab2424eb1aa3ec71b4d59b96a.jpeg
+2026-03-22 18:45:07.052 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: a068f0f17a36448d98fd0fbb62f720bf_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg
+2026-03-22 18:45:09.344 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de a068f0f17a36448d98fd0fbb62f720bf_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: alta
+2026-03-22 18:45:09.367 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - Procesando con Tesseract (Modo Ligero)...
+2026-03-22 18:45:11.357 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-22 18:45:12.684 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 161 chars, 3 lines
+2026-03-22 18:45:13.882 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:262 - OCR completado en 4.51s | motor: Tesseract | confianza: 0.90 | caracteres: 161
+2026-03-22 18:45:13.883 | DEBUG    | modules.parser:parsear_comprobante:589 - RAW OCR TEXT for a068f0f17a36448d98fd0fbb62f720bf_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg:
+Yapeaste S/100 Luis Alexander Fernandez DATOS DE LA TRANSACCION Nro. de celular KK KKK 309 20 mar. 2026 11:48 p. m. Destino Plin
+Nro. de operación 465724
+2026-03-22 18:45:13.891 | DEBUG    | modules.parser:parsear_comprobante:603 - EXTRACTED for a068f0f17a36448d98fd0fbb62f720bf_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: tipo=DESCONOCIDO monto=100.0 fecha=2026-03-20 hora=11:48:00 emisor=None receptor=None celular=None banco=None num_op=465724
+2026-03-22 18:45:13.892 | INFO     | modules.procesador:procesar_archivo:93 - ✓ a068f0f17a36448d98fd0fbb62f720bf_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg | tipo=DESCONOCIDO | monto=100.0 | confianza=0.84 | tiempo=6.83s
+2026-03-22 18:45:13.894 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: dbf679bab2424eb1aa3ec71b4d59b96a_WhatsApp Image 2026-03-22 at 6.12.56 PM.jpeg
+2026-03-22 18:45:13.968 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de dbf679bab2424eb1aa3ec71b4d59b96a_WhatsApp Image 2026-03-22 at 6.12.56 PM.jpeg: baja
+2026-03-22 18:45:14.060 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - Procesando con Tesseract (Modo Ligero)...
+2026-03-22 18:45:14.064 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-22 18:45:16.119 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 143 chars, 3 lines
+2026-03-22 18:45:17.129 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 168 chars, 13 lines
+2026-03-22 18:45:18.068 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-22 18:45:19.817 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 172 chars, 3 lines
+2026-03-22 18:45:21.032 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 302 chars, 20 lines
+2026-03-22 18:45:21.904 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-22 18:45:23.745 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 169 chars, 3 lines
+2026-03-22 18:45:24.916 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 235 chars, 14 lines
+2026-03-22 18:45:25.898 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:262 - OCR completado en 11.84s | motor: Tesseract | confianza: 0.73 | caracteres: 168
+2026-03-22 18:45:25.899 | DEBUG    | modules.parser:parsear_comprobante:589 - RAW OCR TEXT for dbf679bab2424eb1aa3ec71b4d59b96a_WhatsApp Image 2026-03-22 at 6.12.56 PM.jpeg:
+y
+8/150
+Andree Cen É 22 mar. 2026 06:12 p.m
+CODIGO DE SEGURIL 0 8 7
+DATOS DELA
+Nro. de celu :
+Destino Más en Yape E
+_
+g: E
+- TARJETA DEL 4 METROPOLITANO
+2026-03-22 18:45:25.901 | DEBUG    | modules.parser:parsear_comprobante:603 - EXTRACTED for dbf679bab2424eb1aa3ec71b4d59b96a_WhatsApp Image 2026-03-22 at 6.12.56 PM.jpeg: tipo=YAPE monto=8.0 fecha=2026-03-22 hora=18:12:00 emisor=None receptor=- TARJETA DEL 4 METROPOLITANO celular=None banco=None num_op=None
+2026-03-22 18:45:25.901 | INFO     | modules.procesador:procesar_archivo:93 - ✓ dbf679bab2424eb1aa3ec71b4d59b96a_WhatsApp Image 2026-03-22 at 6.12.56 PM.jpeg | tipo=YAPE | monto=8.0 | confianza=0.74 | tiempo=12.0s
