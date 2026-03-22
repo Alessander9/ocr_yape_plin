@@ -233,24 +233,29 @@ def ejecutar_ocr_sobre_versiones(
     inicio = time.time()
     resultados = []
 
+    # Capa 0: Tesseract (Rápido y ligero para evitar timeouts en Render)
+    logger.info("Iniciando análisis rápido con Tesseract...")
+    r_tess = ocr_con_tesseract(versiones[0])
+    if r_tess and r_tess.texto.strip():
+        # Si Tesseract ya detectó el monto con buena fe, lo tomamos como primera opción
+        resultados.append(r_tess)
+        if "S/" in r_tess.texto or "soles" in r_tess.texto.lower():
+             logger.info("Tesseract captó datos clave, continuando con Paddle solo si es necesario.")
+
     for i, version in enumerate(versiones):
         logger.debug(f"OCR capa {i+1}/{len(versiones)}")
 
-        # PaddleOCR para versiones 0-2 (prioridad)
+        # PaddleOCR para versiones 0-2 (solo si hay RAM)
         if i in [0, 1, 2]:
-            r = ocr_con_paddle(version)
-            if r and r.texto.strip():
-                resultados.append(r)
-                # Si tenemos un resultado de alta confianza con Paddle, paramos para ahorrar RAM
-                if r.confianza > 0.85:
-                    logger.debug(f"Alta confianza en capa {i+1}, deteniendo busqueda.")
-                    break
-
-        # Tesseract para versiones 3-4 (binarizadas) - Más ligero para el servidor
-        if i in [3, 4]:
-            r = ocr_con_tesseract(version)
-            if r and r.texto.strip():
-                resultados.append(r)
+            try:
+                r = ocr_con_paddle(version)
+                if r and r.texto.strip():
+                    resultados.append(r)
+                    if r.confianza > 0.85:
+                        break
+            except Exception as e:
+                logger.warning(f"Salto de PaddleOCR por error (probablemente RAM): {e}")
+                continue
 
     # Fallback agresivo: si PaddleOCR no retorno NADA en las primeras 3 capas, 
     # forzar Tesseract sobre la version original y mejorada
