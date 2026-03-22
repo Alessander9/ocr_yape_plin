@@ -1,14 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
-// TODO: Reemplaza esto con la configuración de tu proyecto en Firebase
+// Tu configuración de Firebase
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "tu-proyecto.firebaseapp.com",
-  projectId: "tu-proyecto",
-  storageBucket: "tu-proyecto.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
+    apiKey: "AIzaSyD9oViGY4wtxBDoqDcnGMkwjhCM_c9Z1Ow",
+    authDomain: "yapeplintransformador.firebaseapp.com",
+    projectId: "yapeplintransformador",
+    storageBucket: "yapeplintransformador.firebasestorage.app",
+    messagingSenderId: "240902466092",
+    appId: "1:240902466092:web:791176d915dcdaca2bbf89",
+    measurementId: "G-VS5RW0TNNN"
 };
 
 // Inicializar Firebase
