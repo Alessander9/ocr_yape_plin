@@ -1,0 +1,150 @@
+origen
+corriente
+20marzo2026.17.15h
+Entidad dedestino
+Comision
+$/ 0.00
+Numerodeoperación
+Envioa contactos
+:9019
+2026-03-21 23:46:46.347 | DEBUG    | modules.parser:parsear_comprobante:523 - EXTRACTED for 8435b116614f426cbbbedc253e75a9e4_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg: tipo=PLIN monto=50.0 fecha=2026-03-20 hora=None emisor=destino receptor=contactos celular=None banco=None num_op=exitosa
+2026-03-21 23:46:46.347 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 8435b116614f426cbbbedc253e75a9e4_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg | tipo=PLIN | monto=50.0 | confianza=0.89 | tiempo=6.96s
+2026-03-21 23:46:46.348 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 8b04484bdfe749e68e1d7fa42636ac79_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg
+2026-03-21 23:46:46.392 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 8b04484bdfe749e68e1d7fa42636ac79_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: alta
+2026-03-21 23:46:46.720 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 1/5
+2026-03-21 23:46:47.129 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 2/5
+2026-03-21 23:46:47.500 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 3/5
+2026-03-21 23:46:47.871 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 4/5
+2026-03-21 23:46:47.871 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:46:49.094 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 173 chars, 2 lines
+2026-03-21 23:46:49.700 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 179 chars, 8 lines
+2026-03-21 23:46:50.339 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 5/5
+2026-03-21 23:46:50.339 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:46:51.545 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 160 chars, 3 lines
+2026-03-21 23:46:52.668 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:263 - OCR completado en 5.95s | motor: PaddleOCR+PaddleOCR | confianza: 0.97
+2026-03-21 23:46:52.668 | DEBUG    | modules.parser:parsear_comprobante:509 - RAW OCR TEXT for 8b04484bdfe749e68e1d7fa42636ac79_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg:
+yape
+iYapeaste S/100
+Luis Alexander Fernandez
+20 mar.2026 l 11:48 p.m.
+DATOS DE LA TRANSACCIóN
+Nro.de celular 309
+Destino
+Plin
+Nro. de operación
+465724
+S/ 100
+20 mar. 2026 l 11:48 p. m.
+Nro. de celular
+2026-03-21 23:46:52.669 | DEBUG    | modules.parser:parsear_comprobante:523 - EXTRACTED for 8b04484bdfe749e68e1d7fa42636ac79_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: tipo=DESCONOCIDO monto=100.0 fecha=2026-03-20 hora=11:48:00 emisor=S/100 receptor=None celular=None banco=None num_op=465724
+2026-03-21 23:46:52.669 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 8b04484bdfe749e68e1d7fa42636ac79_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg | tipo=DESCONOCIDO | monto=100.0 | confianza=0.86 | tiempo=6.32s
+2026-03-21 23:50:07.239 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg -> ab75788ba3ef4f4380234b85187c798f.jpeg
+2026-03-21 23:50:07.242 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: ab75788ba3ef4f4380234b85187c798f_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg
+2026-03-21 23:50:09.432 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de ab75788ba3ef4f4380234b85187c798f_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: alta
+2026-03-21 23:50:09.768 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 1/5
+2026-03-21 23:50:18.249 | INFO     | modules.ocr_engine:_init_paddle:39 - PaddleOCR inicializado correctamente.
+2026-03-21 23:50:19.237 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 2/5
+2026-03-21 23:50:19.765 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 3/5
+2026-03-21 23:50:20.221 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 4/5
+2026-03-21 23:50:21.624 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:50:23.070 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 173 chars, 2 lines
+2026-03-21 23:50:23.743 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 179 chars, 8 lines
+2026-03-21 23:50:24.458 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 5/5
+2026-03-21 23:50:24.458 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:50:25.705 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 160 chars, 3 lines
+2026-03-21 23:50:26.953 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:263 - OCR completado en 17.19s | motor: PaddleOCR+PaddleOCR | confianza: 0.97
+2026-03-21 23:50:26.953 | DEBUG    | modules.parser:parsear_comprobante:627 - RAW OCR TEXT for ab75788ba3ef4f4380234b85187c798f_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg:
+yape
+iYapeaste S/100
+Luis Alexander Fernandez
+20 mar.2026 l 11:48 p.m.
+DATOS DE LA TRANSACCIóN
+Nro.de celular 309
+Destino
+Plin
+Nro. de operación
+465724
+S/ 100
+20 mar. 2026 l 11:48 p. m.
+Nro. de celular
+2026-03-21 23:50:26.961 | DEBUG    | modules.parser:parsear_comprobante:641 - EXTRACTED for ab75788ba3ef4f4380234b85187c798f_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: tipo=DESCONOCIDO monto=100.0 fecha=2026-03-20 hora=11:48:00 emisor=None receptor=Luis Alexander Fernandez celular=None banco=None num_op=465724
+2026-03-21 23:50:26.962 | INFO     | modules.procesador:procesar_archivo:93 - ✓ ab75788ba3ef4f4380234b85187c798f_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg | tipo=DESCONOCIDO | monto=100.0 | confianza=0.87 | tiempo=19.71s
+2026-03-21 23:51:29.488 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg -> e082db23d5de44c899dd531cb4ed5387.jpeg
+2026-03-21 23:51:29.489 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg -> 6bc6820f44af4b7e8b55adb633d2a5bb.jpeg
+2026-03-21 23:51:29.492 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: e082db23d5de44c899dd531cb4ed5387_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg
+2026-03-21 23:51:29.540 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de e082db23d5de44c899dd531cb4ed5387_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: alta
+2026-03-21 23:51:29.847 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 1/5
+2026-03-21 23:51:30.264 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 2/5
+2026-03-21 23:51:30.657 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 3/5
+2026-03-21 23:51:31.033 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 4/5
+2026-03-21 23:51:31.033 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:51:32.266 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 173 chars, 2 lines
+2026-03-21 23:51:32.913 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 179 chars, 8 lines
+2026-03-21 23:51:33.553 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 5/5
+2026-03-21 23:51:33.553 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:51:34.719 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 160 chars, 3 lines
+2026-03-21 23:51:35.823 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:263 - OCR completado en 5.98s | motor: PaddleOCR+PaddleOCR | confianza: 0.97
+2026-03-21 23:51:35.824 | DEBUG    | modules.parser:parsear_comprobante:627 - RAW OCR TEXT for e082db23d5de44c899dd531cb4ed5387_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg:
+yape
+iYapeaste S/100
+Luis Alexander Fernandez
+20 mar.2026 l 11:48 p.m.
+DATOS DE LA TRANSACCIóN
+Nro.de celular 309
+Destino
+Plin
+Nro. de operación
+465724
+S/ 100
+20 mar. 2026 l 11:48 p. m.
+Nro. de celular
+2026-03-21 23:51:35.825 | DEBUG    | modules.parser:parsear_comprobante:641 - EXTRACTED for e082db23d5de44c899dd531cb4ed5387_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg: tipo=DESCONOCIDO monto=100.0 fecha=2026-03-20 hora=11:48:00 emisor=None receptor=Luis Alexander Fernandez celular=None banco=None num_op=465724
+2026-03-21 23:51:35.825 | INFO     | modules.procesador:procesar_archivo:93 - ✓ e082db23d5de44c899dd531cb4ed5387_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg | tipo=DESCONOCIDO | monto=100.0 | confianza=0.87 | tiempo=6.33s
+2026-03-21 23:51:35.826 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 6bc6820f44af4b7e8b55adb633d2a5bb_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg
+2026-03-21 23:51:35.864 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 6bc6820f44af4b7e8b55adb633d2a5bb_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg: media
+2026-03-21 23:51:36.176 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 1/5
+2026-03-21 23:51:37.019 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 2/5
+2026-03-21 23:51:37.537 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 3/5
+2026-03-21 23:51:38.073 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 4/5
+2026-03-21 23:51:38.074 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:51:39.050 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 16 chars, 1 lines
+2026-03-21 23:51:40.047 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 6: 242 chars, 17 lines
+2026-03-21 23:51:40.560 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:237 - OCR capa 5/5
+2026-03-21 23:51:40.561 | INFO     | modules.ocr_engine:_init_tesseract:66 - Tesseract inicializado correctamente.
+2026-03-21 23:51:41.918 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:177 - Tesseract PSM 3: 271 chars, 4 lines
+2026-03-21 23:51:43.225 | DEBUG    | modules.ocr_engine:ejecutar_ocr_sobre_versiones:263 - OCR completado en 7.05s | motor: PaddleOCR+PaddleOCR | confianza: 0.98
+2026-03-21 23:51:43.225 | DEBUG    | modules.parser:parsear_comprobante:627 - RAW OCR TEXT for 6bc6820f44af4b7e8b55adb633d2a5bb_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg:
+Envio a contactos
+Operación
+exitosa
+20 marzo 2026,17:15h
+Importe enviado
+S/50.00
+Entidad de destino
+Plin
+Comisión
+S/ 0.00
+Nümero de operación
+000001791
+Tipo de operación
+Envio a contactos
+Contacto
+Luis
+0309
+alexander
+fernandez
+paz
+Cuenta de
+Cuenta
+.9019
+origen
+corriente
+20marzo2026.17.15h
+Entidad dedestino
+Comision
+$/ 0.00
+Numerodeoperación
+Envioa contactos
+:9019
+2026-03-21 23:51:43.227 | DEBUG    | modules.parser:parsear_comprobante:641 - EXTRACTED for 6bc6820f44af4b7e8b55adb633d2a5bb_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg: tipo=PLIN monto=50.0 fecha=2026-03-20 hora=None emisor=:9019 receptor=Luis celular=None banco=None num_op=exitosa
+2026-03-21 23:51:43.228 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 6bc6820f44af4b7e8b55adb633d2a5bb_WhatsApp Image 2026-03-20 at 5.15.36 PM.jpeg | tipo=PLIN | monto=50.0 | confianza=0.90 | tiempo=7.4s

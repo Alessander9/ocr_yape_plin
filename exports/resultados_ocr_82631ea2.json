@@ -1,0 +1,34 @@
+[
+  {
+    "archivo": "0cd254c79ad44dae9c96ecfadf3b7020_WhatsApp Image 2026-03-20 at 11.48.51 PM.jpeg",
+    "extension_archivo": ".jpeg",
+    "hash_imagen": "fbe75915c42ddd97daa7807c670ba238",
+    "posible_duplicado": false,
+    "tipo_app": null,
+    "operacion_exitosa": null,
+    "estado_operacion": null,
+    "monto": null,
+    "moneda": "PEN",
+    "fecha": null,
+    "hora": null,
+    "nombre_emisor_o_pagador": null,
+    "nombre_receptor_o_destinatario": null,
+    "numero_celular_relacionado": null,
+    "banco_o_billetera": null,
+    "numero_operacion": null,
+    "descripcion": null,
+    "texto_completo_detectado": null,
+    "calidad_imagen_estimada": null,
+    "motor_ocr_primario": null,
+    "confianza_global": 0.0,
+    "nivel_confianza": "baja",
+    "confianza_por_campo": null,
+    "campos_dudosos": [],
+    "observaciones": [
+      "OCR devolvió texto vacío."
+    ],
+    "tiempo_procesamiento_seg": null,
+    "error": "No se pudo extraer texto del archivo.",
+    "candidatos_alternativos": null
+  }
+]

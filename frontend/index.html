@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OCR App Yape & Plin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script type="module" src="js/firebase-config.js"></script>
+  <style>
+    :root {
+      --bg:        #0d0f14;
+      --bg2:       #13161e;
+      --bg3:       #1a1e2a;
+      --border:    #252a38;
+      --border2:   #2e3548;
+      --accent:    #6c5ce7;
+      --accent2:   #a29bfe;
+      --yape:      #8b5cf6;
+      --plin:      #06b6d4;
+      --alta:      #10b981;
+      --media:     #f59e0b;
+      --baja:      #ef4444;
+      --text:      #e2e8f0;
+      --text2:     #94a3b8;
+      --text3:     #4a5568;
+      --mono:      'Space Mono', monospace;
+      --sans:      'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background grid ─────────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────────────────── */
+    .wrapper { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Header ──────────────────────────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(108,92,231,0.06) 0%, transparent 100%);
+      padding: 20px 0;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--plin));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .logo-text h1 {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .logo-text p {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 1px;
+    }
+    .badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .badge-version {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+    }
+
+    /* ── Main sections ───────────────────────────────────────────────────── */
+    main { padding: 32px 0 64px; }
+
+    section { margin-bottom: 32px; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── Drop zone ───────────────────────────────────────────────────────── */
+    .dropzone {
+      border: 2px dashed var(--border2);
+      border-radius: 16px;
+      padding: 48px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+    .dropzone::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(108,92,231,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .dropzone:hover {
+      border-color: var(--accent);
+      background: rgba(108,92,231,0.05);
+    }
+    .dropzone.active {
+      border-color: var(--accent);
+      border-style: solid;
+      background: rgba(108,92,231,0.08);
+      box-shadow: 0 0 25px rgba(108,92,231,0.25), 0 0 60px rgba(108,92,231,0.1), inset 0 0 30px rgba(108,92,231,0.05);
+      transform: scale(1.01);
+    }
+    .dropzone.active::before {
+      opacity: 1;
+      background: radial-gradient(ellipse at 50% 0%, rgba(108,92,231,0.18) 0%, transparent 70%);
+    }
+
+    .drop-icon {
+      font-size: 40px; margin-bottom: 16px;
+      filter: drop-shadow(0 0 12px rgba(108,92,231,0.5));
+    }
+    .drop-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .drop-sub {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: #7c6df0; transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--bg3);
+      color: var(--text);
+      border: 1px solid var(--border2);
+    }
+    .btn-secondary:hover { background: var(--border2); }
+    .btn-sm { padding: 7px 14px; font-size: 12px; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--bg3); color: var(--text); }
+
+    .drop-formats {
+      margin-top: 12px;
+      display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;
+    }
+    .fmt-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text3);
+    }
+
+    /* ── File list ───────────────────────────────────────────────────────── */
+    .file-list {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-top: 16px;
+    }
+    .file-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .file-thumb {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .file-info { flex: 1; min-width: 0; }
+    .file-name {
+      font-size: 13px; font-weight: 500; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .file-meta {
+      font-size: 11px; color: var(--text2);
+      font-family: var(--mono);
+    }
+    .progress-bar {
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--plin));
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .remove-btn {
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+    .remove-btn:hover { color: var(--baja); background: rgba(239,68,68,0.1); }
+
+    /* ── Analyze button area ─────────────────────────────────────────────── */
+    .action-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      padding: 16px 20px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .action-left { display: flex; align-items: center; gap: 10px; }
+    .file-count {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* ── Filters ─────────────────────────────────────────────────────────── */
+    .filters {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .filter-select {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: var(--sans);
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-select:focus { border-color: var(--accent); }
+    .filter-input {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: var(--sans);
+      outline: none;
+      width: 150px;
+    }
+    .filter-input:focus { border-color: var(--accent); }
+    .filter-input::placeholder { color: var(--text3); }
+
+    /* ── Result cards ────────────────────────────────────────────────────── */
+    .result-cards {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      animation: cardFadeIn 0.4s ease both;
+    }
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0; width: 3px;
+    }
+    .result-card.card-yape::before { background: var(--yape); }
+    .result-card.card-plin::before { background: var(--plin); }
+    .result-card.card-unknown::before { background: var(--text3); }
+    .result-card:hover { border-color: var(--border2); background: rgba(108,92,231,0.03); }
+
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+    }
+    .card-header-left {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .card-filename {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-monto {
+      font-family: var(--mono); font-size: 22px; font-weight: 700;
+      color: var(--alta);
+    }
+    .card-monto.empty { color: var(--text3); font-size: 16px; }
+
+    .card-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .card-field {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .card-field-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--text3);
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .card-field-value {
+      font-size: 13px; color: var(--text); font-weight: 500;
+    }
+    .card-field-value.empty { color: var(--text3); font-style: italic; }
+
+    /* ── Stats bar ───────────────────────────────────────────────────────── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent-line, var(--border));
+    }
+    .stat-card.yape::before { background: var(--yape); }
+    .stat-card.plin::before { background: var(--plin); }
+    .stat-card.alta::before { background: var(--alta); }
+    .stat-card.media::before { background: var(--media); }
+    .stat-card.baja::before  { background: var(--baja); }
+    .stat-card.total::before { background: linear-gradient(90deg, var(--accent), var(--plin)); }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 6px;
+    }
+
+    /* ── Results table ───────────────────────────────────────────────────── */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    thead th {
+      padding: 12px 14px;
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text2);
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      position: sticky; top: 0; z-index: 1;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    tbody tr:hover { background: rgba(108,92,231,0.04); }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: 11px 14px; vertical-align: middle; }
+
+    .chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .chip-yape { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+    .chip-plin { background: rgba(6,182,212,0.15); color: #67e8f9; border: 1px solid rgba(6,182,212,0.3); }
+    .chip-unknown { background: var(--bg3); color: var(--text3); border: 1px solid var(--border); }
+
+    .conf-bar {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .conf-mini {
+      width: 60px; height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .conf-fill {
+      height: 100%; border-radius: 4px;
+    }
+    .conf-fill.alta  { background: var(--alta); }
+    .conf-fill.media { background: var(--media); }
+    .conf-fill.baja  { background: var(--baja); }
+    .conf-text {
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+    .conf-text.alta  { color: var(--alta); }
+    .conf-text.media { color: var(--media); }
+    .conf-text.baja  { color: var(--baja); }
+
+    .monto-val {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--alta);
+    }
+    .monto-null { color: var(--text3); }
+
+    .dudosos-list {
+      display: flex; flex-wrap: wrap; gap: 4px;
+    }
+    .dudoso-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: var(--media);
+      border-radius: 4px;
+      font-family: var(--mono);
+    }
+
+    .null-val { color: var(--text3); font-style: italic; }
+
+    /* ── Export bar ──────────────────────────────────────────────────────── */
+    .export-bar {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .btn-excel {
+      background: rgba(16,185,129,0.15);
+      color: #34d399;
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+    .btn-excel:hover { background: rgba(16,185,129,0.25); }
+    .btn-pdf {
+      background: rgba(239,68,68,0.15);
+      color: #fc8181;
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+    .btn-pdf:hover { background: rgba(239,68,68,0.25); }
+    .btn-json {
+      background: rgba(245,158,11,0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+    .btn-json:hover { background: rgba(245,158,11,0.25); }
+
+    /* ── Empty state ─────────────────────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 64px 32px;
+      color: var(--text3);
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+    .empty-text { font-size: 14px; }
+
+    /* ── Toast ───────────────────────────────────────────────────────────── */
+    .toast-container {
+      position: fixed; bottom: 24px; right: 24px;
+      display: flex; flex-direction: column; gap: 8px;
+      z-index: 999;
+    }
+    .toast {
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+      animation: slideIn 0.3s ease;
+      max-width: 320px;
+    }
+    .toast.success { border-color: rgba(16,185,129,0.4); }
+    .toast.error   { border-color: rgba(239,68,68,0.4); }
+    @keyframes slideIn {
+      from { transform: translateX(100px); opacity: 0; }
+      to   { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ── Loading overlay ─────────────────────────────────────────────────── */
+    .processing-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+    }
+    .processing-overlay.visible { display: flex; }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .processing-text {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    /* ── Detail modal ────────────────────────────────────────────────────── */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(13,15,20,0.9);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.visible { display: flex; }
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      max-width: 720px; width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-title {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text);
+    }
+    .modal-body { padding: 24px; }
+    .modal-close {
+      background: transparent; border: none;
+      color: var(--text2); cursor: pointer; font-size: 18px;
+      padding: 4px; border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .modal-close:hover { background: var(--bg3); color: var(--text); }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .detail-item {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .detail-key {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text2);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .detail-val {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .ocr-text {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      white-space: pre-wrap;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 12px;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .filters { flex-direction: column; align-items: stretch; }
+      .filter-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="wrapper">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🔍</div>
+        <div class="logo-text">
+          <h1>OCR · YAPE &amp; PLIN</h1>
+          <p>Extracción estructurada de comprobantes de pago</p>
+        </div>
+      </div>
+      <span class="badge badge-version">v1.0.0</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrapper">
+
+    <!-- ── Upload ──────────────────────────────────────────────────────── -->
+    <section>
+      <div class="section-label">01 / Subir capturas</div>
+
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" multiple accept=".png,.jpg,.jpeg,.webp,.bmp,.tiff" hidden />
+        <div class="drop-icon">📱</div>
+        <div class="drop-title">Arrastra tus capturas aquí</div>
+        <div class="drop-sub">o haz clic para seleccionar archivos</div>
+        <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+          Seleccionar archivos
+        </button>
+        <div class="drop-formats">
+          <span class="fmt-tag">PNG</span>
+          <span class="fmt-tag">JPG</span>
+          <span class="fmt-tag">WEBP</span>
+          <span class="fmt-tag">BMP</span>
+          <span class="fmt-tag">TIFF</span>
+        </div>
+      </div>
+
+      <div class="file-list" id="fileList"></div>
+    </section>
+
+    <!-- ── Action bar ──────────────────────────────────────────────────── -->
+    <section id="actionSection" style="display:none">
+      <div class="action-bar">
+        <div class="action-left">
+          <span class="file-count" id="fileCount">0 archivos listos</span>
+          <button class="btn btn-ghost btn-sm" onclick="clearFiles()">Limpiar</button>
+        </div>
+        <button class="btn btn-primary" id="analyzeBtn" onclick="analizarArchivos()">
+          🔬 Analizar capturas
+        </button>
+      </div>
+    </section>
+
+    <!-- ── Stats ───────────────────────────────────────────────────────── -->
+    <section id="statsSection" style="display:none">
+      <div class="section-label">02 / Resumen</div>
+      <div class="stats-bar">
+        <div class="stat-card total">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">Total procesados</div>
+        </div>
+        <div class="stat-card yape">
+          <div class="stat-value" id="statYape">0</div>
+          <div class="stat-label">Capturas YAPE</div>
+        </div>
+        <div class="stat-card plin">
+          <div class="stat-value" id="statPlin">0</div>
+          <div class="stat-label">Capturas PLIN</div>
+        </div>
+        <div class="stat-card alta">
+          <div class="stat-value" id="statMonto">S/ 0</div>
+          <div class="stat-label">Suma de montos</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Results ─────────────────────────────────────────────────────── -->
+    <section id="resultsSection" style="display:none">
+      <div class="section-label">03 / Resultados</div>
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+        <div class="filters">
+          <select class="filter-select" id="filterApp" onchange="filtrarResultados()">
+            <option value="">Todos los apps</option>
+            <option value="YAPE">YAPE</option>
+            <option value="PLIN">PLIN</option>
+            <option value="DESCONOCIDO">Desconocido</option>
+          </select>
+          <input class="filter-input" id="filterSearch" type="text" placeholder="Buscar archivo..." oninput="debounceFiltrar()" />
+        </div>
+
+        <div class="export-bar">
+          <button class="btn btn-sm btn-excel" onclick="exportar('excel')">📊 Excel</button>
+          <button class="btn btn-sm btn-pdf" onclick="exportar('pdf')">📄 PDF</button>
+          <button class="btn btn-sm btn-json" onclick="exportar('json')">{ } JSON</button>
+        </div>
+      </div>
+
+      <div class="result-cards" id="resultsBody">
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-text">Procesa archivos para ver los resultados</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Processing overlay -->
+<div class="processing-overlay" id="processingOverlay">
+  <div class="spinner"></div>
+  <div class="processing-text" id="processingText">Procesando capturas...</div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="cerrarModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Detalle de captura</span>
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let archivosSeleccionados = [];
+let resultadosGlobales = [];
+let resultadosFiltrados = [];
+
+// Detección automática: usa localhost si estás en tu PC, o Render si estás en producción (Vercel)
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API = isLocal ? window.location.origin + '/api' : 'https://yapeplin-ocr-backend.onrender.com/api';
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmt = n => n != null ? `S/ ${Number(n).toLocaleString('es-PE', {minimumFractionDigits:2})}` : null;
+const pct = v => v != null ? `${(v*100).toFixed(1)}%` : null;
+
+function toast(msg, tipo = 'info') {
+  const t = document.createElement('div');
+  t.className = `toast ${tipo}`;
+  const icons = { success: '✓', error: '✗', info: 'ℹ' };
+  t.innerHTML = `<span>${icons[tipo] || 'ℹ'}</span> ${msg}`;
+  $('toastContainer').appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+function setProcessing(visible, texto = 'Procesando capturas...') {
+  $('processingOverlay').classList.toggle('visible', visible);
+  $('processingText').textContent = texto;
+}
+
+// ── Drag & Drop ────────────────────────────────────────────────────────────
+const dropzone = $('dropzone');
+
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('active'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropzone.classList.remove('active');
+  agregarArchivos(Array.from(e.dataTransfer.files));
+});
+
+$('fileInput').addEventListener('change', e => {
+  agregarArchivos(Array.from(e.target.files));
+  e.target.value = '';
+});
+
+function agregarArchivos(nuevos) {
+  const exts = ['png','jpg','jpeg','webp','bmp','tiff'];
+  nuevos.forEach(f => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    if (!exts.includes(ext)) {
+      toast(`Formato no soportado: ${f.name}`, 'error'); return;
+    }
+    if (archivosSeleccionados.find(a => a.name === f.name && a.size === f.size)) return;
+    archivosSeleccionados.push(f);
+  });
+  renderFileList();
+}
+
+function renderFileList() {
+  const list = $('fileList');
+  list.innerHTML = '';
+  archivosSeleccionados.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.id = `file-${i}`;
+
+    const thumbUrl = URL.createObjectURL(f);
+    const size = (f.size / 1024).toFixed(1) + ' KB';
+
+    item.innerHTML = `
+      <img class="file-thumb" src="${thumbUrl}" alt="${f.name}" onerror="this.textContent='🖼'" />
+      <div class="file-info">
+        <div class="file-name">${f.name}</div>
+        <div class="file-meta">${size} · ${f.type || 'imagen'}</div>
+        <div class="progress-bar"><div class="progress-fill" id="prog-${i}" style="width:0%"></div></div>
+      </div>
+      <div class="file-status">
+        <div class="status-dot status-pending" id="dot-${i}"></div>
+      </div>
+      <button class="remove-btn" onclick="quitarArchivo(${i})">✕</button>
+    `;
+    list.appendChild(item);
+  });
+
+  $('actionSection').style.display = archivosSeleccionados.length ? 'block' : 'none';
+  $('fileCount').textContent = `${archivosSeleccionados.length} archivo${archivosSeleccionados.length !== 1 ? 's' : ''} listo${archivosSeleccionados.length !== 1 ? 's' : ''}`;
+}
+
+function quitarArchivo(i) {
+  archivosSeleccionados.splice(i, 1);
+  renderFileList();
+}
+
+function clearFiles() {
+  archivosSeleccionados = [];
+  renderFileList();
+  $('resultsSection').style.display = 'none';
+  $('statsSection').style.display = 'none';
+}
+
+// ── Analizar ───────────────────────────────────────────────────────────────
+async function analizarArchivos() {
+  if (!archivosSeleccionados.length) { toast('No hay archivos seleccionados.', 'error'); return; }
+
+  // Actualizar dots a loading
+  archivosSeleccionados.forEach((_, i) => {
+    const dot = $(`dot-${i}`);
+    const prog = $(`prog-${i}`);
+    if (dot) { dot.className = 'status-dot status-loading'; }
+    if (prog) { prog.style.width = '30%'; }
+  });
+
+  setProcessing(true, `Analizando ${archivosSeleccionados.length} captura(s)...`);
+  $('analyzeBtn').disabled = true;
+
+  const formData = new FormData();
+  archivosSeleccionados.forEach(f => formData.append('archivos', f, f.name));
+
+  try {
+    const resp = await fetch(`${API}/ocr/procesar`, { method: 'POST', body: formData });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.detail || `Error HTTP ${resp.status}`);
+    }
+
+    const responseData = await resp.json(); // Renamed to avoid conflict with 'data' in loop
+    resultadosGlobales = []; // Clear global results for new batch
+    let archivosProcesados = 0;
+
+    for (let i = 0; i < responseData.resultados.length; i++) {
+      const data = responseData.resultados[i]; // Each 'data' is a single result
+      archivosProcesados++;
+      resultadosGlobales.push(data);
+      
+      // Guardar en la base de datos de Firebase automáticamente
+      if(window.guardarReciboEnFirebase) {
+        window.guardarReciboEnFirebase(data);
+      }
+      
+      const dot = $(`dot-${i}`);
+      const prog = $(`prog-${i}`);
+      if (dot) { dot.className = data.error ? 'status-dot status-error' : 'status-dot status-done'; }
+      if (prog) { prog.style.width = '100%'; }
+    }
+
+    renderStats(responseData);
+    renderTabla(resultadosGlobales);
+    $('statsSection').style.display = 'block';
+    $('resultsSection').style.display = 'block';
+
+    toast(`${resultadosGlobales.length} captura(s) procesadas correctamente.`, 'success');
+
+  } catch (e) {
+    console.error(e);
+    toast(`Error: ${e.message}`, 'error');
+    archivosSeleccionados.forEach((_, i) => {
+      const dot = $(`dot-${i}`);
+      if (dot) dot.className = 'status-dot status-error';
+    });
+  } finally {
+    setProcessing(false);
+    $('analyzeBtn').disabled = false;
+  }
+}
+
+// ── Stats ──────────────────────────────────────────────────────────────────
+function renderStats(data) {
+  $('statTotal').textContent = data.total_archivos || 0;
+  $('statYape').textContent  = data.capturas_yape || 0;
+  $('statPlin').textContent  = data.capturas_plin || 0;
+
+  const suma = data.suma_montos || 0;
+  $('statMonto').textContent = `S/ ${suma.toLocaleString('es-PE', {minimumFractionDigits:2})}`;
+}
+
+// ── Cards ──────────────────────────────────────────────────────────────────
+function renderTabla(resultados) {
+  const container = $('resultsBody');
+  container.innerHTML = '';
+
+  if (!resultados.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Sin resultados para los filtros aplicados</div></div>`;
+    return;
+  }
+
+  resultados.forEach((r, i) => {
+    const card = document.createElement('div');
+    const appClass = r.tipo_app === 'YAPE' ? 'card-yape' : r.tipo_app === 'PLIN' ? 'card-plin' : 'card-unknown';
+    card.className = `result-card ${appClass}`;
+    card.style.animationDelay = `${i * 60}ms`;
+
+    const appChipStr = r.tipo_app === 'YAPE' ? `<span class="chip chip-yape">YAPE</span>` : 
+                       (r.tipo_app === 'PLIN' ? `<span class="chip chip-plin">PLIN</span>` : 
+                       `<span class="chip chip-unknown">OTRO</span>`);
+
+    const montoDisplay = r.monto != null
+      ? `<span class="card-monto">${fmt(r.monto)}</span>`
+      : `<span class="card-monto empty">Sin monto</span>`;
+
+    const v = (val) => val || '<span class="card-field-value empty">—</span>';
+    const idx = resultadosGlobales.indexOf(r);
+
+    const showCelular = r.numero_celular_relacionado && r.numero_celular_relacionado !== 'null';
+    
+    const emisorHtml = r.nombre_emisor_o_pagador ? `
+        <div class="card-field" style="grid-column: 1 / -1;">
+          <span class="card-field-label">📤 Emisor / Pagador</span>
+          <span class="card-field-value" style="font-size:14px; color:var(--text2);">${v(r.nombre_emisor_o_pagador)}</span>
+        </div>` : '';
+
+    const celularHtml = showCelular ? `
+        <div class="card-field">
+          <span class="card-field-label">📱 Celular</span>
+          <span class="card-field-value" style="font-family:var(--mono);">${v(r.numero_celular_relacionado)}</span>
+        </div>` : '';
+
+    const bancoNombre = r.tipo_app === 'YAPE' ? 'BCP' : r.tipo_app === 'PLIN' ? 'Scotiabank / BBVA / Interbank' : (r.banco_o_billetera || null);
+    const bancoValue = bancoNombre ? ` <span style="opacity:0.7;font-size:12px;margin-left:6px;">(${bancoNombre})</span>` : '';
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-header-left">
+          <span class="card-filename" title="${r.archivo}">📄 ${r.archivo}</span>
+        </div>
+        ${montoDisplay}
+      </div>
+      <div class="card-fields">
+        ${emisorHtml}
+        <div class="card-field" style="grid-column: 1 / -1; margin-bottom: 4px;">
+          <span class="card-field-label" style="color:var(--text2);">📥 Receptor / Destinatario</span>
+          <span class="card-field-value" style="font-size:17px;font-weight:700;color:#f8fafc;letter-spacing:0.2px;margin-top:2px;">${v(r.nombre_receptor_o_destinatario)}</span>
+        </div>
+        
+        <div class="card-field">
+          <span class="card-field-label">📅 Fecha</span>
+          <span class="card-field-value">${v(r.fecha)}</span>
+        </div>
+        <div class="card-field">
+          <span class="card-field-label">⏰ Hora</span>
+          <span class="card-field-value">${v(r.hora ? r.hora.slice(0,5) : null)}</span>
+        </div>
+        <div class="card-field">
+          <span class="card-field-label">🔢 N° Operación</span>
+          <span class="card-field-value" style="font-family:var(--mono);">${v(r.numero_operacion)}</span>
+        </div>
+        
+        <div class="card-field">
+          <span class="card-field-label">🏦 App / Billetera</span>
+          <span class="card-field-value" style="display:flex;align-items:center;margin-top:4px;">
+            ${appChipStr}${bancoValue}
+          </span>
+        </div>
+        
+        ${celularHtml}
+        
+        <div class="card-field">
+          <span class="card-field-label">💵 Moneda</span>
+          <span class="card-field-value">${v(r.moneda)}</span>
+        </div>
+        <div class="card-field">
+          <span class="card-field-label">✅ Op. Exitosa</span>
+          <span class="card-field-value">${r.operacion_exitosa ? v(r.operacion_exitosa).toUpperCase() : '—'}</span>
+        </div>
+        <div class="card-field" style="grid-column: 1 / -1;">
+          <span class="card-field-label">📝 Descripción</span>
+          <span class="card-field-value">${v(r.descripcion)}</span>
+        </div>
+      </div>
+      <div style="margin-top:16px; text-align:right; border-top: 1px solid var(--border); padding-top: 12px;">
+        <button class="btn btn-ghost btn-sm" onclick="verDetalle(${idx})">🔎 Ver detalle completo</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ── Filtros (con debounce) ─────────────────────────────────────────────────
+let _filterTimer = null;
+function debounceFiltrar() {
+  clearTimeout(_filterTimer);
+  _filterTimer = setTimeout(filtrarResultados, 200);
+}
+function filtrarResultados() {
+  const app    = $('filterApp').value;
+  const search = $('filterSearch').value.toLowerCase();
+
+  resultadosFiltrados = resultadosGlobales.filter(r => {
+    if (app && r.tipo_app !== app) return false;
+    if (search && !r.archivo.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  renderTabla(resultadosFiltrados);
+}
+
+// ── Modal ──────────────────────────────────────────────────────────────────
+function verDetalle(idx) {
+  const r = resultadosGlobales[idx];
+  $('modalTitle').textContent = r.archivo;
+
+  // ── Datos principales ──
+  const campos = [
+    ['🏦 Tipo App', r.tipo_app || '—'],
+    ['✅ Op. Exitosa', r.operacion_exitosa || '—'],
+    ['💰 Monto', r.monto != null ? fmt(r.monto) : '—'],
+    ['💵 Moneda', r.moneda || '—'],
+    ['📅 Fecha', r.fecha || '—'],
+    ['⏰ Hora', r.hora || '—'],
+    ['📤 Emisor', r.nombre_emisor_o_pagador || '—'],
+    ['📥 Receptor', r.nombre_receptor_o_destinatario || '—'],
+    ['📱 Celular', r.numero_celular_relacionado || '—'],
+    ['🏧 Banco/Billetera', r.tipo_app === 'YAPE' ? 'BCP' : r.tipo_app === 'PLIN' ? 'Scotiabank / BBVA / Interbank' : (r.banco_o_billetera || '—')],
+    ['🔢 N° Operación', r.numero_operacion || '—'],
+    ['📝 Descripción', r.descripcion || '—'],
+  ];
+
+  const grid = campos.map(([k, v]) => `
+    <div class="detail-item">
+      <div class="detail-key">${k}</div>
+      <div class="detail-val">${v}</div>
+    </div>
+  `).join('');
+
+  // ── Datos técnicos OCR (modo admin) ──
+  const confGlobal = r.confianza_global;
+  const confColor = confGlobal >= 0.8 ? 'var(--alta)' : confGlobal >= 0.5 ? 'var(--media)' : 'var(--baja)';
+  const confPct = confGlobal != null ? (confGlobal * 100).toFixed(1) + '%' : '—';
+
+  let confBarsHtml = '';
+  if (r.confianza_por_campo) {
+    const entries = Object.entries(r.confianza_por_campo).filter(([,v]) => v != null);
+    confBarsHtml = entries.map(([campo, val]) => {
+      const pctVal = (val * 100).toFixed(0);
+      const barColor = val >= 0.8 ? 'var(--alta)' : val >= 0.5 ? 'var(--media)' : 'var(--baja)';
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text2);width:140px;text-transform:capitalize;">${campo.replace(/_/g, ' ')}</span>
+        <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+          <div style="height:100%;width:${pctVal}%;background:${barColor};border-radius:3px;transition:width 0.5s;"></div>
+        </div>
+        <span style="font-family:var(--mono);font-size:10px;color:${barColor};width:35px;text-align:right;">${pctVal}%</span>
+      </div>`;
+    }).join('');
+  }
+
+  const techSection = `
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <div class="detail-key" style="margin-bottom:12px;font-size:11px;">🛠 DATOS TÉCNICOS OCR</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="detail-item">
+          <div class="detail-key">Confianza Global</div>
+          <div class="detail-val" style="color:${confColor};font-size:18px;font-weight:700;">${confPct}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-key">Motor OCR</div>
+          <div class="detail-val">${r.motor_ocr_primario || '—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-key">Procesamiento</div>
+          <div class="detail-val">${r.tiempo_procesamiento_seg ? r.tiempo_procesamiento_seg.toFixed(2) + 's' : '—'}</div>
+        </div>
+      </div>
+      ${confBarsHtml ? `<div class="detail-key" style="margin-bottom:8px;">Confianza por Campo</div>${confBarsHtml}` : ''}
+    </div>`;
+
+  const obs = (r.observaciones || []).map(o => `<li>${o}</li>`).join('');
+  const ocrText = r.texto_completo_detectado
+    ? `<div style="margin-top:16px;"><div class="detail-key" style="margin-bottom:6px;">📜 TEXTO OCR CRUDO</div><div class="ocr-text">${r.texto_completo_detectado}</div></div>`
+    : '';
+
+  $('modalBody').innerHTML = `
+    <div class="detail-grid">${grid}</div>
+    ${techSection}
+    ${obs ? `<div style="margin-top:16px;"><div class="detail-key" style="margin-bottom:6px;">⚠️ OBSERVACIONES</div><ul style="color:var(--text2);font-size:13px;padding-left:18px;line-height:1.8;">${obs}</ul></div>` : ''}
+    ${ocrText}
+  `;
+
+  $('modalBackdrop').classList.add('visible');
+}
+
+function cerrarModal(e) {
+  if (!e || e.target === $('modalBackdrop')) {
+    $('modalBackdrop').classList.remove('visible');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') cerrarModal();
+});
+
+// ── Exportar ───────────────────────────────────────────────────────────────
+async function exportar(formato) {
+  if (!resultadosGlobales.length) { toast('No hay resultados para exportar.', 'error'); return; }
+
+  setProcessing(true, `Generando ${formato.toUpperCase()}...`);
+  try {
+    const resp = await fetch(`${API}/export/${formato}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resultados: resultadosGlobales }),
+    });
+
+    if (!resp.ok) throw new Error(`Error HTTP ${resp.status}`);
+
+    const blob = await resp.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    const exts = { excel: 'xlsx', pdf: 'pdf', json: 'json' };
+    a.download = `reporte_ocr_yape_plin.${exts[formato]}`;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    toast(`${formato.toUpperCase()} descargado correctamente.`, 'success');
+  } catch (e) {
+    toast(`Error exportando ${formato}: ${e.message}`, 'error');
+  } finally {
+    setProcessing(false);
+  }
+}
+</script>
+</body>
+</html>
