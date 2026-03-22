@@ -1,10 +1,13 @@
 # Usamos la imagen base de Python oficial con Debian (importante para librerías de sistema)
 FROM python:3.10-slim
 
-# Instalar dependencias del sistema operativo requeridas por OpenCV (libGL)
+# Instalar dependencias del sistema operativo requeridas por OpenCV y OCR
 RUN apt-get update && apt-get install -y \
     libgl1 \
     libglib2.0-0 \
+    libgomp1 \
+    tesseract-ocr \
+    tesseract-ocr-spa \
     && rm -rf /var/lib/apt/lists/*
 
 # Configurar directorio de trabajo

@@ -236,30 +236,37 @@ def ejecutar_ocr_sobre_versiones(
     for i, version in enumerate(versiones):
         logger.debug(f"OCR capa {i+1}/{len(versiones)}")
 
-        # PaddleOCR para versiones 0-2 y 5
-        if i in [0, 1, 2, 5]:
+        # PaddleOCR para versiones 0-2 (prioridad)
+        if i in [0, 1, 2]:
             r = ocr_con_paddle(version)
-            if r:
+            if r and r.texto.strip():
                 resultados.append(r)
+                # Si tenemos un resultado de alta confianza con Paddle, paramos para ahorrar RAM
+                if r.confianza > 0.85:
+                    logger.debug(f"Alta confianza en capa {i+1}, deteniendo busqueda.")
+                    break
 
-        # Tesseract para versiones 3-4 (binarizadas)
+        # Tesseract para versiones 3-4 (binarizadas) - Más ligero para el servidor
         if i in [3, 4]:
             r = ocr_con_tesseract(version)
-            if r:
+            if r and r.texto.strip():
                 resultados.append(r)
 
-        # Si ya tenemos resultado de alta confianza, podemos continuar igualmente
-        # para asegurarnos de no perder nada (prioridad: precisión > velocidad)
-
-    # Fallback: si nada funcionó, intentar Tesseract en versión original
+    # Fallback agresivo: si PaddleOCR no retorno NADA en las primeras 3 capas, 
+    # forzar Tesseract sobre la version original y mejorada
     if not resultados and versiones:
-        logger.warning("PaddleOCR sin resultados, usando Tesseract como fallback.")
-        r = ocr_con_tesseract(versiones[0])
-        if r:
-            resultados.append(r)
+        logger.warning("PaddleOCR sin resultados en capas iniciales, forzando Tesseract.")
+        r_orig = ocr_con_tesseract(versiones[0])
+        if r_orig:
+            resultados.append(r_orig)
+        
+        if len(versiones) > 1:
+            r_mejorada = ocr_con_tesseract(versiones[1])
+            if r_mejorada:
+                resultados.append(r_mejorada)
 
     texto, confianza, motor, lineas = reconciliar_resultados(resultados)
     duracion = round(time.time() - inicio, 2)
-    logger.debug(f"OCR completado en {duracion}s | motor: {motor} | confianza: {confianza:.2f}")
+    logger.info(f"OCR completado en {duracion}s | motor: {motor} | confianza: {confianza:.2f} | caracteres: {len(texto)}")
 
     return texto, confianza, motor, lineas
