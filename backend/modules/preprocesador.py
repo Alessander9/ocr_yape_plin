@@ -102,8 +102,8 @@ def mejorar_contraste_clahe(gris: np.ndarray) -> np.ndarray:
 
 
 def reducir_ruido(gris: np.ndarray) -> np.ndarray:
-    """Reduce el ruido manteniendo bordes del texto."""
-    return cv2.fastNlMeansDenoising(gris, h=10, templateWindowSize=7, searchWindowSize=21)
+    """Reduce el ruido de forma rápida usando Median Blur."""
+    return cv2.medianBlur(gris, 3)
 
 
 def enfocar(gris: np.ndarray) -> np.ndarray:
