@@ -818,7 +818,7 @@ let resultadosFiltrados = [];
 
 // Detección automática: usa localhost si estás en tu PC, o Render si estás en producción (Vercel)
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API = isLocal ? window.location.origin + '/api' : 'https://yapeplin-ocr-backend.onrender.com/api';
+const API = isLocal ? window.location.origin + '/api' : 'https://ocr-yape-plin.onrender.com/api';
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
