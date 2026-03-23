@@ -346,10 +346,10 @@ def extraer_numero_operacion(texto: str) -> Tuple[Optional[str], float]:
     """
     # Secuencias alfanuméricas de 6-20 caracteres tolerantes a ruido en la etiqueta
     patrones = [
-        r"(?:operaci.?n|c.?digo|constancia|id|nro|n[uú]mero|referencia)[:\s#N°º]*([A-Z0-9\-OIlS]{6,20})",
-        r"(?:transacci.?n|cod)[:\s]*([A-Z0-9\-OIlS]{6,20})",
-        r"N[°ºde\s]*([0-9OIlS]{6,20})",   # formato "N° 987654321" o "Nde 12345O7"
-        r"\b([0-9]{8,20})\b",        # número largo sin contexto (menor confianza, estricto a números)
+        r"(?:operaci.?n|c.?digo|constancia|id|nro|n[uú]mero|referencia)[:\s#N°º]*([0-9OIlS]{6,25})",
+        r"(?:transacci.?n|cod)[:\s]*([0-9OIlS]{6,25})",
+        r"N[°ºde\s]*([0-9OIlS]{6,25})",   # formato "N° 987654321" o "Nde 12345O7"
+        r"\b([0-9]{8,25})\b",        # número largo sin contexto (menor confianza, estricto a números)
     ]
 
     candidatos = []

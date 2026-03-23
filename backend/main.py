@@ -56,6 +56,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def force_utf8_response_headers(request, call_next):
+    """
+    Fuerza que todos los archivos de texto, html, js, css y json 
+    se sirvan con charset=utf-8 para evitar problemas de codificación nativos de Windows.
+    """
+    response = await call_next(request)
+    content_type = response.headers.get("Content-Type", "")
+    if ("text/" in content_type or "application/json" in content_type or "application/javascript" in content_type) and "charset=" not in content_type.lower():
+        response.headers["Content-Type"] = f"{content_type}; charset=utf-8"
+    return response
+
 # ── Routers ───────────────────────────────────────────────────────────────────
 app.include_router(ocr_router, prefix="/api/ocr", tags=["OCR"])
 app.include_router(export_router, prefix="/api/export", tags=["Exportar"])

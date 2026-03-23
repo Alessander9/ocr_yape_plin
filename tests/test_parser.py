@@ -162,9 +162,9 @@ def test_numero_operacion_con_etiqueta():
     assert c >= 0.8
 
 def test_codigo_operacion():
-    n, c = extraer_numero_operacion("Código: OPR20260215ABC")
+    n, c = extraer_numero_operacion("Código: 20260215001")
     assert n is not None
-    assert "OPR" in n
+    assert "2026" in n
 
 def test_numero_operacion_ausente():
     n, c = extraer_numero_operacion("Sin código aquí.")

@@ -2908,3 +2908,293 @@ Compartir
 constancia
 2026-03-22 19:20:22.455 | DEBUG    | modules.parser:parsear_comprobante:627 - EXTRACTED for ffc5e13e535d4203adaf7d98a06bf3d0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg: tipo=PLIN monto=30.0 fecha=None hora=10:36:00 emisor=None receptor=None celular=953955431 banco=Scotiabank num_op=None
 2026-03-22 19:20:22.455 | INFO     | modules.procesador:procesar_archivo:93 - ✓ ffc5e13e535d4203adaf7d98a06bf3d0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg | tipo=PLIN | monto=30.0 | confianza=0.89 | tiempo=0.77s
+2026-03-22 19:32:42.639 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: no se ve.jpeg -> 17eae26eb5304c4180d96de1d383c81e.jpeg
+2026-03-22 19:32:42.641 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 17eae26eb5304c4180d96de1d383c81e_no se ve.jpeg
+2026-03-22 19:32:42.902 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 17eae26eb5304c4180d96de1d383c81e_no se ve.jpeg: alta
+2026-03-22 19:32:42.973 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:32:46.377 | INFO     | modules.ocr_engine:_init_paddle:40 - PaddleOCR inicializado correctamente.
+2026-03-22 19:32:47.322 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 4.35s | motor: PaddleOCR | confianza: 0.95 | caracteres: 172
+2026-03-22 19:32:47.322 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 17eae26eb5304c4180d96de1d383c81e_no se ve.jpeg:
+11:24
+iYapeaste 25
+S/
+Andree R.Centeno A.
+11mar.2025-11:24am
+Nde celular 431
+DestinoYape
+N°de operación065
+Compartir
+Ira inicio
+Mis.promos
+Mäs en Yape
+Nuevo
+cineplane
+2026-03-22 19:32:47.331 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 17eae26eb5304c4180d96de1d383c81e_no se ve.jpeg: tipo=YAPE monto=25.0 fecha=2025-03-11 hora=11:24:00 emisor=None receptor=Andree R.Centeno A. celular=None banco=None num_op=None
+2026-03-22 19:32:47.331 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 17eae26eb5304c4180d96de1d383c81e_no se ve.jpeg | tipo=YAPE | monto=25.0 | confianza=0.89 | tiempo=4.68s
+2026-03-22 19:33:27.022 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: no se ve.jpeg -> 18a25613767d42d8a554a610caa8e1d6.jpeg
+2026-03-22 19:33:27.023 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg -> 1ed65a7830ba495984875e17d15c16c2.jpeg
+2026-03-22 19:33:27.026 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 18a25613767d42d8a554a610caa8e1d6_no se ve.jpeg
+2026-03-22 19:33:27.082 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 18a25613767d42d8a554a610caa8e1d6_no se ve.jpeg: alta
+2026-03-22 19:33:27.174 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:33:27.551 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.38s | motor: PaddleOCR | confianza: 0.95 | caracteres: 172
+2026-03-22 19:33:27.551 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 18a25613767d42d8a554a610caa8e1d6_no se ve.jpeg:
+11:24
+iYapeaste 25
+S/
+Andree R.Centeno A.
+11mar.2025-11:24am
+Nde celular 431
+DestinoYape
+N°de operación065
+Compartir
+Ira inicio
+Mis.promos
+Mäs en Yape
+Nuevo
+cineplane
+2026-03-22 19:33:27.552 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 18a25613767d42d8a554a610caa8e1d6_no se ve.jpeg: tipo=YAPE monto=25.0 fecha=2025-03-11 hora=11:24:00 emisor=None receptor=Andree R.Centeno A. celular=None banco=None num_op=None
+2026-03-22 19:33:27.552 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 18a25613767d42d8a554a610caa8e1d6_no se ve.jpeg | tipo=YAPE | monto=25.0 | confianza=0.89 | tiempo=0.53s
+2026-03-22 19:33:27.554 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 1ed65a7830ba495984875e17d15c16c2_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg
+2026-03-22 19:33:27.618 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 1ed65a7830ba495984875e17d15c16c2_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg: alta
+2026-03-22 19:33:27.651 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:33:28.558 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.91s | motor: PaddleOCR | confianza: 0.99 | caracteres: 195
+2026-03-22 19:33:28.559 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 1ed65a7830ba495984875e17d15c16c2_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg:
+Pago
+realizado
+Monto total
+-S/ 25.00
+Detalle de operación
+Pagaste a
+ANDREE RODOLFO
+CENTENO ALVA
+Celular
+953955431
+Destino
+YAPE
+Fecha
+16/03/2026
+Hora
+10:38
+Nro. de operación
+177367550859396
+oh pay
+2026-03-22 19:33:28.560 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 1ed65a7830ba495984875e17d15c16c2_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg: tipo=YAPE monto=25.0 fecha=2026-03-16 hora=10:38:00 emisor=None receptor=ANDREE RODOLFO celular=953955431 banco=None num_op=Pagaste
+2026-03-22 19:33:28.560 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 1ed65a7830ba495984875e17d15c16c2_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg | tipo=YAPE | monto=25.0 | confianza=0.90 | tiempo=1.01s
+2026-03-22 19:35:37.470 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: no se ve.jpeg -> 01b87861488a4a5e9d1a9064e745b6bd.jpeg
+2026-03-22 19:35:37.471 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg -> 246b1927e0924e89a9b9297aeb603d7d.jpeg
+2026-03-22 19:35:37.473 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 01b87861488a4a5e9d1a9064e745b6bd_no se ve.jpeg
+2026-03-22 19:35:37.521 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 01b87861488a4a5e9d1a9064e745b6bd_no se ve.jpeg: alta
+2026-03-22 19:35:37.586 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:37.959 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.37s | motor: PaddleOCR | confianza: 0.95 | caracteres: 172
+2026-03-22 19:35:37.959 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 01b87861488a4a5e9d1a9064e745b6bd_no se ve.jpeg:
+11:24
+iYapeaste 25
+S/
+Andree R.Centeno A.
+11mar.2025-11:24am
+Nde celular 431
+DestinoYape
+N°de operación065
+Compartir
+Ira inicio
+Mis.promos
+Mäs en Yape
+Nuevo
+cineplane
+2026-03-22 19:35:37.960 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 01b87861488a4a5e9d1a9064e745b6bd_no se ve.jpeg: tipo=YAPE monto=25.0 fecha=2025-03-11 hora=11:24:00 emisor=None receptor=Andree R.Centeno A. celular=None banco=None num_op=None
+2026-03-22 19:35:37.961 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 01b87861488a4a5e9d1a9064e745b6bd_no se ve.jpeg | tipo=YAPE | monto=25.0 | confianza=0.89 | tiempo=0.49s
+2026-03-22 19:35:37.962 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 246b1927e0924e89a9b9297aeb603d7d_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg
+2026-03-22 19:35:38.021 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 246b1927e0924e89a9b9297aeb603d7d_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg: alta
+2026-03-22 19:35:38.053 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:38.504 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.45s | motor: PaddleOCR | confianza: 0.99 | caracteres: 195
+2026-03-22 19:35:38.504 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 246b1927e0924e89a9b9297aeb603d7d_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg:
+Pago
+realizado
+Monto total
+-S/ 25.00
+Detalle de operación
+Pagaste a
+ANDREE RODOLFO
+CENTENO ALVA
+Celular
+953955431
+Destino
+YAPE
+Fecha
+16/03/2026
+Hora
+10:38
+Nro. de operación
+177367550859396
+oh pay
+2026-03-22 19:35:38.506 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 246b1927e0924e89a9b9297aeb603d7d_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg: tipo=YAPE monto=25.0 fecha=2026-03-16 hora=10:38:00 emisor=None receptor=ANDREE RODOLFO celular=953955431 banco=None num_op=Pagaste
+2026-03-22 19:35:38.506 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 246b1927e0924e89a9b9297aeb603d7d_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg | tipo=YAPE | monto=25.0 | confianza=0.90 | tiempo=0.54s
+2026-03-22 19:35:45.555 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: no se ve.jpeg -> 5a99c50b2b2b4773b9d5adccaaa5e2c6.jpeg
+2026-03-22 19:35:45.555 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg -> cdc1612aadee4d13b3e409e199d1a478.jpeg
+2026-03-22 19:35:45.556 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.01.49 PM5126.jpeg -> 540c22b392b2443f8f2ad2154218fcae.jpeg
+2026-03-22 19:35:45.557 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.01.49 PM512512.jpeg -> 74a2c05e47ef461fa3cbb258a1ad8d51.jpeg
+2026-03-22 19:35:45.558 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.03.24 PM66.jpeg -> d608e9822e8f4e84baa93ac2fadc0e66.jpeg
+2026-03-22 19:35:45.559 | INFO     | routers.ocr_router:procesar_capturas:74 - Archivo recibido: WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg -> 9366dfc923614a169c34fb4ed5458ea0.jpeg
+2026-03-22 19:35:45.564 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 5a99c50b2b2b4773b9d5adccaaa5e2c6_no se ve.jpeg
+2026-03-22 19:35:45.614 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 5a99c50b2b2b4773b9d5adccaaa5e2c6_no se ve.jpeg: alta
+2026-03-22 19:35:45.673 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:46.038 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.37s | motor: PaddleOCR | confianza: 0.95 | caracteres: 172
+2026-03-22 19:35:46.038 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 5a99c50b2b2b4773b9d5adccaaa5e2c6_no se ve.jpeg:
+11:24
+iYapeaste 25
+S/
+Andree R.Centeno A.
+11mar.2025-11:24am
+Nde celular 431
+DestinoYape
+N°de operación065
+Compartir
+Ira inicio
+Mis.promos
+Mäs en Yape
+Nuevo
+cineplane
+2026-03-22 19:35:46.040 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 5a99c50b2b2b4773b9d5adccaaa5e2c6_no se ve.jpeg: tipo=YAPE monto=25.0 fecha=2025-03-11 hora=11:24:00 emisor=None receptor=Andree R.Centeno A. celular=None banco=None num_op=None
+2026-03-22 19:35:46.040 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 5a99c50b2b2b4773b9d5adccaaa5e2c6_no se ve.jpeg | tipo=YAPE | monto=25.0 | confianza=0.89 | tiempo=0.47s
+2026-03-22 19:35:46.041 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: cdc1612aadee4d13b3e409e199d1a478_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg
+2026-03-22 19:35:46.100 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de cdc1612aadee4d13b3e409e199d1a478_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg: alta
+2026-03-22 19:35:46.133 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:46.554 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.42s | motor: PaddleOCR | confianza: 0.99 | caracteres: 195
+2026-03-22 19:35:46.555 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for cdc1612aadee4d13b3e409e199d1a478_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg:
+Pago
+realizado
+Monto total
+-S/ 25.00
+Detalle de operación
+Pagaste a
+ANDREE RODOLFO
+CENTENO ALVA
+Celular
+953955431
+Destino
+YAPE
+Fecha
+16/03/2026
+Hora
+10:38
+Nro. de operación
+177367550859396
+oh pay
+2026-03-22 19:35:46.556 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for cdc1612aadee4d13b3e409e199d1a478_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg: tipo=YAPE monto=25.0 fecha=2026-03-16 hora=10:38:00 emisor=None receptor=ANDREE RODOLFO celular=953955431 banco=None num_op=Pagaste
+2026-03-22 19:35:46.556 | INFO     | modules.procesador:procesar_archivo:93 - ✓ cdc1612aadee4d13b3e409e199d1a478_WhatsApp Image 2026-03-22 at 7.01.49 PM1.jpeg | tipo=YAPE | monto=25.0 | confianza=0.90 | tiempo=0.51s
+2026-03-22 19:35:46.558 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 540c22b392b2443f8f2ad2154218fcae_WhatsApp Image 2026-03-22 at 7.01.49 PM5126.jpeg
+2026-03-22 19:35:46.601 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 540c22b392b2443f8f2ad2154218fcae_WhatsApp Image 2026-03-22 at 7.01.49 PM5126.jpeg: alta
+2026-03-22 19:35:46.625 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:47.238 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.61s | motor: PaddleOCR | confianza: 0.98 | caracteres: 172
+2026-03-22 19:35:47.239 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 540c22b392b2443f8f2ad2154218fcae_WhatsApp Image 2026-03-22 at 7.01.49 PM5126.jpeg:
+Interbank
+plin
+jPago exitoso s/50.00
+Enviado a:
+Andree R Centeno A
+953955431
+Destino:
+Yape
+Comisión:
+GRATIS
+Fecha y hora:
+20 Mar 2026
+08:58AM
+Código de operación:
+44305570
+2026-03-22 19:35:47.240 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 540c22b392b2443f8f2ad2154218fcae_WhatsApp Image 2026-03-22 at 7.01.49 PM5126.jpeg: tipo=DESCONOCIDO monto=50.0 fecha=2026-03-20 hora=08:58:00 emisor=None receptor=None celular=953955431 banco=Interbank num_op=44305570
+2026-03-22 19:35:47.240 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 540c22b392b2443f8f2ad2154218fcae_WhatsApp Image 2026-03-22 at 7.01.49 PM5126.jpeg | tipo=DESCONOCIDO | monto=50.0 | confianza=0.87 | tiempo=0.68s
+2026-03-22 19:35:47.241 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 74a2c05e47ef461fa3cbb258a1ad8d51_WhatsApp Image 2026-03-22 at 7.01.49 PM512512.jpeg
+2026-03-22 19:35:47.340 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 74a2c05e47ef461fa3cbb258a1ad8d51_WhatsApp Image 2026-03-22 at 7.01.49 PM512512.jpeg: baja
+2026-03-22 19:35:47.482 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:48.614 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 1.13s | motor: PaddleOCR | confianza: 0.96 | caracteres: 218
+2026-03-22 19:35:48.614 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 74a2c05e47ef461fa3cbb258a1ad8d51_WhatsApp Image 2026-03-22 at 7.01.49 PM512512.jpeg:
+Operación Exitosa
+S/80.00
+Comisión: S/0.08
+ClienteAndree R Centeno A
+Destino:Yape
+Comentario:
+Nümero de celular:
+Fecha:19 mar.202611:36
+762185559556
+Nro de operación:
+919654
+Compartir
+Repetir operación
+Volver a inicio
+2026-03-22 19:35:48.616 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 74a2c05e47ef461fa3cbb258a1ad8d51_WhatsApp Image 2026-03-22 at 7.01.49 PM512512.jpeg: tipo=YAPE monto=80.0 fecha=None hora=00:08:00 emisor=None receptor=None celular=None banco=None num_op=919654
+2026-03-22 19:35:48.617 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 74a2c05e47ef461fa3cbb258a1ad8d51_WhatsApp Image 2026-03-22 at 7.01.49 PM512512.jpeg | tipo=YAPE | monto=80.0 | confianza=0.89 | tiempo=1.37s
+2026-03-22 19:35:48.621 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: d608e9822e8f4e84baa93ac2fadc0e66_WhatsApp Image 2026-03-22 at 7.03.24 PM66.jpeg
+2026-03-22 19:35:48.692 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de d608e9822e8f4e84baa93ac2fadc0e66_WhatsApp Image 2026-03-22 at 7.03.24 PM66.jpeg: media
+2026-03-22 19:35:48.760 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:35:49.943 | INFO     | modules.ocr_engine:_init_tesseract:67 - Tesseract inicializado correctamente.
+2026-03-22 19:35:51.883 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 3: 59 chars, 1 lines
+2026-03-22 19:35:53.268 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 6: 229 chars, 20 lines
+2026-03-22 19:35:54.237 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 2 con PaddleOCR...
+2026-03-22 19:35:54.709 | INFO     | modules.ocr_engine:_init_tesseract:67 - Tesseract inicializado correctamente.
+2026-03-22 19:35:56.305 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 3: 29 chars, 1 lines
+2026-03-22 19:35:57.725 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 6: 306 chars, 23 lines
+2026-03-22 19:35:58.531 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 3 con PaddleOCR...
+2026-03-22 19:35:58.950 | INFO     | modules.ocr_engine:_init_tesseract:67 - Tesseract inicializado correctamente.
+2026-03-22 19:36:01.245 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 3: 55 chars, 1 lines
+2026-03-22 19:36:03.067 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 6: 313 chars, 10 lines
+2026-03-22 19:36:04.037 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 4 con PaddleOCR...
+2026-03-22 19:36:04.223 | INFO     | modules.ocr_engine:_init_tesseract:67 - Tesseract inicializado correctamente.
+2026-03-22 19:36:13.723 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 6: 724 chars, 40 lines
+2026-03-22 19:36:14.599 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 5 con PaddleOCR...
+2026-03-22 19:36:15.201 | INFO     | modules.ocr_engine:_init_tesseract:67 - Tesseract inicializado correctamente.
+2026-03-22 19:36:16.494 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 3: 50 chars, 1 lines
+2026-03-22 19:36:17.985 | DEBUG    | modules.ocr_engine:ocr_con_tesseract:178 - Tesseract PSM 6: 313 chars, 9 lines
+2026-03-22 19:36:18.656 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 29.9s | motor: PaddleOCR+PaddleOCR | confianza: 0.89 | caracteres: 348
+2026-03-22 19:36:18.657 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for d608e9822e8f4e84baa93ac2fadc0e66_WhatsApp Image 2026-03-22 at 7.03.24 PM66.jpeg:
+Constancia
+Pagaste con Plin
+Andree Cen S/10.00
+Fecha y hora
+20feb.2026-09:40a.m
+Origen
+Cuenta Power 9071
+Destino 431
+Yape
+Comision
+Gratis
+Enviamos el detalle de la operación a:
+a hotmail.com
+Volver a Plin
+Compartir
+II1
+0 Pagaste con Pin
+Fechayhora
+20feb.2026-09:40a.m.
+Enviamos el detalle de la operacin a
+a awss hotmail.com
+1I
+2026-03-22 19:36:18.660 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for d608e9822e8f4e84baa93ac2fadc0e66_WhatsApp Image 2026-03-22 at 7.03.24 PM66.jpeg: tipo=DESCONOCIDO monto=10.0 fecha=2026-02-20 hora=09:40:00 emisor=None receptor=Andree Cen S/10.00 celular=None banco=None num_op=Pagaste
+2026-03-22 19:36:18.660 | INFO     | modules.procesador:procesar_archivo:93 - ✓ d608e9822e8f4e84baa93ac2fadc0e66_WhatsApp Image 2026-03-22 at 7.03.24 PM66.jpeg | tipo=DESCONOCIDO | monto=10.0 | confianza=0.81 | tiempo=30.04s
+2026-03-22 19:36:18.662 | INFO     | modules.procesador:procesar_archivo:32 - Procesando: 9366dfc923614a169c34fb4ed5458ea0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg
+2026-03-22 19:36:18.735 | DEBUG    | modules.preprocesador:preprocesar_imagen:162 - Calidad estimada de 9366dfc923614a169c34fb4ed5458ea0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg: media
+2026-03-22 19:36:18.790 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:245 - Procesando capa 1 con PaddleOCR...
+2026-03-22 19:36:19.452 | INFO     | modules.ocr_engine:ejecutar_ocr_sobre_versiones:276 - OCR completado en 0.66s | motor: PaddleOCR | confianza: 0.94 | caracteres: 323
+2026-03-22 19:36:19.453 | DEBUG    | modules.parser:parsear_comprobante:645 - RAW OCR TEXT for 9366dfc923614a169c34fb4ed5458ea0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg:
+10:37
+L
+X
+Scotiabank
+23oct,10:36a.m
+Plinylisto Cuenta de origenCuenta Digital SBP 1957
+Enviado aAndree R Centeno A
+953955431
+MontoS/30.00
+DestinoYape
+Comision:Gratis
+Con Plin envias dinero gratis,de
+plin
+inmediato y a toda hora.
+Te hemos enviado esta constancia a
+c hotmail.com
+Iral inicio
+Compartir
+constancia
+2026-03-22 19:36:19.455 | DEBUG    | modules.parser:parsear_comprobante:659 - EXTRACTED for 9366dfc923614a169c34fb4ed5458ea0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg: tipo=PLIN monto=30.0 fecha=None hora=10:36:00 emisor=None receptor=None celular=953955431 banco=Scotiabank num_op=None
+2026-03-22 19:36:19.455 | INFO     | modules.procesador:procesar_archivo:93 - ✓ 9366dfc923614a169c34fb4ed5458ea0_WhatsApp Image 2026-03-22 at 7.05.08 PM1265215621.jpeg | tipo=PLIN | monto=30.0 | confianza=0.89 | tiempo=0.79s
