@@ -234,31 +234,31 @@ def ejecutar_ocr_sobre_versiones(
     inicio = time.time()
     resultados = []
 
-    # Modo Híbrido: PaddleOCR (si hay RAM) + Tesseract (siempre)
-    # En Render (limitado a 512MB) evitamos Paddle para no crashear
+    # Modo Máxima Potencia: PaddleOCR (Alta Precisión) + Tesseract (Respaldo)
     es_render = os.environ.get("RENDER") == "true"
     
     for i, version in enumerate(versiones):
-        # Solo procesamos las 3 mejores versiones para ahorrar tiempo
-        if i > 2: break 
+        # En PC local procesamos TODAS las versiones para máxima precisión
+        # En Render seguimos limitando un poco para no quemar el servidor
+        if es_render and i > 2: break 
         
-        # Intentar PaddleOCR solo si NO estamos en Render (en local la PC aguanta)
-        if not es_render:
-            try:
-                r_pad = ocr_con_paddle(version)
-                if r_pad and r_pad.texto.strip():
-                    resultados.append(r_pad)
-                    if r_pad.confianza > 0.85:
-                        break
-            except Exception as e:
-                logger.debug(f"PaddleOCR falló (ignorable): {e}")
+        logger.info(f"Procesando capa {i+1} con PaddleOCR...")
+        # Intentar PaddleOCR (Motor de mayor precisión)
+        try:
+            r_pad = ocr_con_paddle(version)
+            if r_pad and r_pad.texto.strip():
+                resultados.append(r_pad)
+                # Si Paddle es muy seguro (>90%), podemos parar
+                if r_pad.confianza > 0.92:
+                    break
+        except Exception as e:
+            if not es_render:
+                logger.error(f"Error en PaddleOCR: {e}")
 
-        # Tesseract (Motor ligero y confiable)
-        r = ocr_con_tesseract(version)
-        if r and r.texto.strip():
-            resultados.append(r)
-            if r.confianza > 0.80:
-                break
+        # Tesseract como respaldo de la misma capa
+        r_tess = ocr_con_tesseract(version)
+        if r_tess and r_tess.texto.strip():
+            resultados.append(r_tess)
 
     # Fallback si no hay resultados
     if not resultados and versiones:
