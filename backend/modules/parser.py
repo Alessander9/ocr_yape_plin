@@ -164,11 +164,12 @@ def extraer_monto(texto: str) -> Tuple[Optional[float], float]:
     Extrae el monto principal usando múltiples patrones y contexto semántico.
     Retorna (monto, confianza) o (None, 0.0).
     """
-    # Patrones ordenados por especificidad
+    # Patrones ordenados por especificidad (Maneja orden normal y orden inverso cuando el OCR rompe líneas)
     patrones = [
-        (r"S/\.?\s*(\d{1,6}(?:[.,]\d{1,2})?)", True),      # S/ 150.50
+        (r"(?:S/|S1|5/|\$/)\.?\s*[\r\n]*\s*(\d{1,6}(?:[.,]\d{1,2})?)", True), # Normal: S/ 150.50 o S/ \n 150
+        (r"\b(\d{1,6}(?:[.,]\d{1,2})?)\s*[\r\n]+\s*(?:S/|S1|5/|\$/)", True), # Inverso (frecuente en fallos OCR): 25 \n S/
         (r"\b(\d{1,6}[.,]\d{2})\b", True),                   # 150.50 / 150,50
-        (r"\bS\s*/\s*(\d{1,6})\b", True),                    # S / 150
+        (r"\b(?:\$|S)\s*/\s*(\d{1,6})\b", True),             # S / 150
         (r"\b(\d{1,6}(?:\.\d{1,2})?)\b", False),             # bare number: 64 or 64.50
     ]
 
@@ -343,11 +344,11 @@ def extraer_numero_operacion(texto: str) -> Tuple[Optional[str], float]:
     Extrae el código/número de operación usando contexto semántico.
     Limpia errores clásicos de OCR (ej. O por 0, I por 1).
     """
-    # Secuencias alfanuméricas de 6-20 caracteres
+    # Secuencias alfanuméricas de 6-20 caracteres tolerantes a ruido en la etiqueta
     patrones = [
-        r"(?:operaci[oó0]n|c[oó0]digo|constancia|id|nro|n[uú]mero|referencia)[:\s#N°º]*([A-Z0-9\-OIlS]{6,20})",
-        r"(?:transacci[oó0]n|cod)[:\s]*([A-Z0-9\-OIlS]{6,20})",
-        r"N[°º]\s*([0-9OIlS]{6,20})",   # formato "N° 987654321" o "N° 12345O7"
+        r"(?:operaci.?n|c.?digo|constancia|id|nro|n[uú]mero|referencia)[:\s#N°º]*([A-Z0-9\-OIlS]{6,20})",
+        r"(?:transacci.?n|cod)[:\s]*([A-Z0-9\-OIlS]{6,20})",
+        r"N[°ºde\s]*([0-9OIlS]{6,20})",   # formato "N° 987654321" o "Nde 12345O7"
         r"\b([0-9]{8,20})\b",        # número largo sin contexto (menor confianza, estricto a números)
     ]
 
@@ -442,10 +443,16 @@ def extraer_nombres(texto: str) -> Tuple[Optional[str], float, Optional[str], fl
         # Filtrar palabras de interfaz
         if nombre_l in TEXTOS_INTERFAZ:
             return False
+        # Filtrar posibles montos basura cortos como S/ solos
+        if nombre.upper() in ["S/", "S1", "5/", "$/", "S/."]:
+            return False
         # Filtrar si parece un monto (S/100, 100.00, etc.)
         if re.match(r"^S/\s*\d", nombre, _flags()):
             return False
         if re.match(r"^\d+([.,]\d+)?$", nombre):
+            return False
+        # Filtrar basura técnica del OCR
+        if re.search(r"operaci.?n", nombre_l) or re.search(r"celular", nombre_l):
             return False
         # Filtrar si parece una fecha/hora agrupada (ej. 20marzo2026, 17:15h)
         if re.match(r"^\d{1,2}\s*(?:de\s*)?[a-zA-Z]{3,}\s*(?:de\s*)?\d{4}.*$", nombre) or re.match(r"\d{1,2}[:.]\d{2}", nombre):
@@ -475,6 +482,31 @@ def extraer_nombres(texto: str) -> Tuple[Optional[str], float, Optional[str], fl
         nombre = re.sub(r"^S/\s*\d+[.,]?\d*\s*", "", nombre).strip()
         return nombre
 
+    # Candidatos a receptor (para consolidar)
+    candidatos = []
+
+    # ── Patrones genéricos para receptor (antes de Yape/Plin específicos) ───
+    for i, l in enumerate(lineas):
+        l_l = l.lower()
+        if "destino" in l_l or "enviado a" in l_l or "para:" in l_l or "contacto" in l_l:
+            cand = l.split(":")[-1].strip()
+            if not cand and i + 1 < len(lineas):
+                cand = lineas[i+1].strip()
+            # A veces Plin dice "Entidad de destino Plin"
+            if "plin" in cand.lower() or "yape" in cand.lower():
+                continue
+            cand = _limpiar_nombre(cand)
+            if _es_nombre_valido(cand):
+                candidatos.append((cand, 0.85))
+
+        # Para Yape/Plin sin etiquetas previas, un nombre válido a veces aparece antes de la fecha
+        if re.search(r"^\d{1,2}\s*[a-zA-Z]{3}", l_l) or re.search(r"^\d{1,2}[/\-\s]", l) or "202" in l:
+            idx = max(0, i-1)
+            cand = lineas[idx].strip()
+            if cand and cand.lower() not in TEXTOS_INTERFAZ and _es_nombre_valido(cand):
+                # Podría ser el nombre del receptor, o emisor si es "Yapeaste"
+                cand = _limpiar_nombre(cand)
+                candidatos.append((cand, 0.70))
     # ── 1. Patrones YAPE específicos ─────────────────────────────────
     # "Yapiste a NAME" o "iYapeaste S/100\nNAME" o "¡Yapiste a NAME!"
     for i, linea in enumerate(lineas):
