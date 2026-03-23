@@ -92,6 +92,14 @@ def test_monto_demasiado_alto():
     m, c = extraer_monto("S/ 999999999.00")
     assert m is None  # fuera de rango razonable
 
+def test_monto_ocr_sucio():
+    # Casos donde S/ se lee como S1, 5/, $/, S/, o no hay espacio
+    assert extraer_monto("5/ 120.50")[0] == 120.50
+    assert extraer_monto("S1 120.50")[0] == 120.50
+    assert extraer_monto("s/120.50")[0] == 120.50
+    assert extraer_monto("Sl 120.50")[0] == 120.50
+    assert extraer_monto("$/ 120.50")[0] == 120.50
+
 
 # ── Tests de fecha ────────────────────────────────────────────────────────────
 
@@ -119,6 +127,15 @@ def test_fecha_futura_invalida():
 def test_fecha_vacia():
     f, c = extraer_fecha("")
     assert f is None
+
+def test_fecha_ocr_sucio():
+    # Casos donde OCR lee mal meses o separadores
+    assert extraer_fecha("21 nar 2026")[0] == "2026-03-21"
+    assert extraer_fecha("21 narzo 2026")[0] == "2026-03-21"
+    assert extraer_fecha("15 ehb 2026")[0] == "2026-02-15" # ehb = feb
+    assert extraer_fecha("10 abri 2025")[0] == "2025-04-10"
+    assert extraer_fecha("05.12.2025")[0] == "2025-12-05"
+    assert extraer_fecha("20/12/26")[0] == "2026-12-20"
 
 
 # ── Tests de hora ─────────────────────────────────────────────────────────────
@@ -152,6 +169,11 @@ def test_codigo_operacion():
 def test_numero_operacion_ausente():
     n, c = extraer_numero_operacion("Sin código aquí.")
     assert n is None
+
+def test_numero_operacion_ocr_sucio():
+    # 'O' en lugar de '0', etc.
+    assert extraer_numero_operacion("0peraci0n N° 12345O7")[0] == "1234507"
+    assert extraer_numero_operacion("Nro: I23456")[0] == "123456"
 
 
 # ── Tests de celular ──────────────────────────────────────────────────────────

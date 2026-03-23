@@ -226,18 +226,21 @@ def extraer_fecha(texto: str) -> Tuple[Optional[str], float]:
     ]
 
     MESES = {
-        "ene": 1, "enero": 1, "feb": 2, "febrero": 2,
-        "mar": 3, "marzo": 3, "abr": 4, "abril": 4,
+        "ene": 1, "enero": 1, "feb": 2, "febrero": 2, "ehb": 2,
+        "mar": 3, "marzo": 3, "nar": 3, "narzo": 3, "abr": 4, "abril": 4, "abri": 4,
         "may": 5, "mayo": 5, "jun": 6, "junio": 6,
-        "jul": 7, "julio": 7, "ago": 8, "agosto": 8,
-        "sep": 9, "septiembre": 9, "oct": 10, "octubre": 10,
+        "jul": 7, "julio": 7, "ago": 8, "agosto": 8, "ag0": 8,
+        "sep": 9, "septiembre": 9, "set": 9, "oct": 10, "octubre": 10, "0ct": 10,
         "nov": 11, "noviembre": 11, "dic": 12, "diciembre": 12,
     }
 
     candidatos = []
 
+    # Pre-procesamiento de fechas con separadores punteados (05.12.2026 -> 05/12/2026)
+    texto_fecha = re.sub(r"(\d{1,2})\.(\d{1,2})\.(\d{2,4})", r"\1/\2/\3", texto)
+
     for patron, fmt in patrones:
-        for match in re.finditer(patron, texto, _flags()):
+        for match in re.finditer(patron, texto_fecha, _flags()):
             try:
                 if fmt == "dmy":
                     dia, mes, anio = int(match.group(1)), int(match.group(2)), int(match.group(3))
@@ -245,13 +248,18 @@ def extraer_fecha(texto: str) -> Tuple[Optional[str], float]:
                     anio, mes, dia = int(match.group(1)), int(match.group(2)), int(match.group(3))
                 elif fmt == "texto":
                     dia = int(match.group(1))
-                    mes_str = match.group(2).lower().rstrip('.')[:3]
-                    mes = MESES.get(mes_str)
+                    mes_str = match.group(2).lower().rstrip('.')[:5]
+                    # Buscar coincidencia exacta o los primeros 3 caracteres
+                    mes = MESES.get(mes_str) or MESES.get(mes_str[:3])
                     if mes is None:
                         continue
                     anio = int(match.group(3))
                 else:
                     continue
+                
+                # Arreglar años de 2 dígitos (ej. 26 -> 2026)
+                if anio < 100:
+                    anio += 2000
 
                 fecha = datetime(anio, mes, dia)
                 # Sanidad: no fechas futuras lejanas ni muy antiguas
@@ -333,29 +341,45 @@ def extraer_hora(texto: str) -> Tuple[Optional[str], float]:
 def extraer_numero_operacion(texto: str) -> Tuple[Optional[str], float]:
     """
     Extrae el código/número de operación usando contexto semántico.
+    Limpia errores clásicos de OCR (ej. O por 0, I por 1).
     """
-    # Secuencias numéricas de 6-20 dígitos, o alfanuméricas
+    # Secuencias alfanuméricas de 6-20 caracteres
     patrones = [
-        r"(?:operaci[oó]n|c[oó]digo|constancia|id|nro|n[uú]mero|referencia)[:\s#N°º]*([A-Z0-9\-]{6,20})",
-        r"(?:transacci[oó]n|cod)[:\s]*([A-Z0-9\-]{6,20})",
-        r"N[°º]\s*([0-9]{6,20})",   # formato "N° 987654321"
-        r"\b([0-9]{8,20})\b",        # número largo sin contexto (menor confianza)
+        r"(?:operaci[oó0]n|c[oó0]digo|constancia|id|nro|n[uú]mero|referencia)[:\s#N°º]*([A-Z0-9\-OIlS]{6,20})",
+        r"(?:transacci[oó0]n|cod)[:\s]*([A-Z0-9\-OIlS]{6,20})",
+        r"N[°º]\s*([0-9OIlS]{6,20})",   # formato "N° 987654321" o "N° 12345O7"
+        r"\b([0-9]{8,20})\b",        # número largo sin contexto (menor confianza, estricto a números)
     ]
 
     candidatos = []
+    
+    # Mapeo de errores OCR comunes para códigos de operación numéricos
+    def _limpiar_ocr_typos(valor: str) -> str:
+        # Solo aplicamos esto si el valor parece ser mayormente numérico
+        letras = sum(c.isalpha() for c in valor)
+        if letras <= 3:  # Probable error OCR
+            reemplazos = {"O": "0", "I": "1", "l": "1", "S": "5", "B": "8", "Z": "2"}
+            for err, corr in reemplazos.items():
+                valor = valor.replace(err, corr).replace(err.lower(), corr)
+        return valor
 
     for i, patron in enumerate(patrones):
         for match in re.finditer(patron, texto, _flags()):
             valor = match.group(1).strip()
             # Rechazar palabras comunes que se captan como código
-            if valor.lower() in ["exitosa", "fallida", "contacto", "yape", "plin"]:
+            if valor.lower() in ["exitosa", "fallida", "contacto", "yape", "plin", "operaci0n"]:
                 continue
             # Rechazar fechas
             if re.match(r"\d{1,2}[/\-]\d{1,2}[/\-]\d{4}", valor):
                 continue
+            
+            # Limpiar OCR typos del código candidato antes de evaluarlo final
+            valor_limpio = _limpiar_ocr_typos(valor)
+            
             # Solo rechazar número 9 dígitos como teléfono si NO tiene contexto semántico
-            if i >= 3 and re.match(r"^\d{9}$", valor):
+            if i >= 3 and re.match(r"^\d{9}$", valor_limpio):
                 continue
+                
             # Confianza según nivel de contexto del patrón
             if i == 0:
                 conf = 0.88
@@ -365,7 +389,7 @@ def extraer_numero_operacion(texto: str) -> Tuple[Optional[str], float]:
                 conf = 0.82
             else:
                 conf = 0.60
-            candidatos.append((valor, conf))
+            candidatos.append((valor_limpio, conf))
 
     if not candidatos:
         return None, 0.0
